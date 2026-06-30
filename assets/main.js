@@ -1,6 +1,6 @@
-// Shared site behavior: header inject, burger, scroll fx, cookies, cart, auth guard
+
 (function(){
-  const BASE = location.pathname.replace(/[^/]*$/, ''); // current dir
+  const BASE = location.pathname.replace(/[^/]*$/, '');
   const link = (href, label) => `<a href="${BASE}${href}">${label}</a>`;
 
   function buildHeader(){
@@ -82,7 +82,6 @@
       burger.classList.toggle('open',open);
       burger.setAttribute('aria-expanded',open);
     });
-    // header bg change on scroll
     const onScroll=()=>{
       header.classList.toggle('scrolled', window.scrollY > 30);
       const top = document.getElementById('scrollTop');
@@ -90,7 +89,6 @@
     };
     window.addEventListener('scroll',onScroll,{passive:true});onScroll();
 
-    // Update cart + auth label
     updateCartBadge();
     const user = JSON.parse(localStorage.getItem('tn_user')||'null');
     const label = document.querySelector('[data-auth-label]');
@@ -109,7 +107,6 @@
     updateCartBadge();
   };
 
-  // Cookie banner
   function cookies(){
     if(localStorage.getItem('tn_cookies_ok')) return;
     const div = document.createElement('div');
@@ -123,7 +120,6 @@
     });
   }
 
-  // Scroll-to-top button
   function scrollTopBtn(){
     const btn = document.createElement('button');
     btn.id='scrollTop';btn.className='scroll-top';btn.setAttribute('aria-label','Scroll to top');
@@ -132,15 +128,18 @@
     document.body.appendChild(btn);
   }
 
-  // Reveal-on-scroll animations
+  let revealObserver;
   function reveals(){
-    const io = new IntersectionObserver(entries=>{
-      entries.forEach(e=>{ if(e.isIntersecting){ e.target.classList.add('visible'); io.unobserve(e.target);}});
+    revealObserver = new IntersectionObserver(entries=>{
+      entries.forEach(e=>{ if(e.isIntersecting){ e.target.classList.add('visible'); revealObserver.unobserve(e.target);}});
     },{threshold:.12});
-    document.querySelectorAll('.reveal').forEach(el=>io.observe(el));
+    document.querySelectorAll('.reveal').forEach(el=>revealObserver.observe(el));
   }
+  window.TN_observeReveals = function(){
+    if(!revealObserver) return;
+    document.querySelectorAll('.reveal:not(.visible)').forEach(el=>revealObserver.observe(el));
+  };
 
-  // Auth guard for protected pages
   window.TN_requireAuth = function(){
     if(!localStorage.getItem('tn_user')){
       const back = encodeURIComponent(location.pathname+location.search);

@@ -26,19 +26,23 @@
     <div data-footer></div>
     <script src="assets/main.js"></script>
     <script>
-      (async function () {
-        const id = parseInt(
-          new URLSearchParams(location.search).get("id") || "1",
-          10,
-        );
-        const el = document.getElementById("detail");
-        try {
-          const res = await fetch("assets/products.json");
-          if (!res.ok) throw 0;
-          const all = await res.json();
-          const p = all.find((x) => x.id === id);
-          if (!p) throw 0;
-          el.innerHTML = `
+      // protected page
+      if (!TN_requireAuth()) {
+        /* redirected */
+      } else {
+        (async function () {
+          const id = parseInt(
+            new URLSearchParams(location.search).get("id") || "1",
+            10,
+          );
+          const el = document.getElementById("detail");
+          try {
+            const res = await fetch("assets/products.json");
+            if (!res.ok) throw 0;
+            const all = await res.json();
+            const p = all.find((x) => x.id === id);
+            if (!p) throw 0;
+            el.innerHTML = `
           <figure class="thumb"><img src="${p.image}" alt="${p.title}"/></figure>
           <div class="detail-info">
             <p style="color:var(--muted);text-transform:uppercase;font-size:.8rem;letter-spacing:.05em">${p.category}</p>
@@ -52,11 +56,12 @@
             </div>
           </div>
         `;
-        } catch (e) {
-          el.innerHTML =
-            '<p style="color:var(--muted);grid-column:1/-1;padding:40px">Product not found.</p>';
-        }
-      })();
+          } catch (e) {
+            el.innerHTML =
+              '<p style="color:var(--muted);grid-column:1/-1;padding:40px">Product not found.</p>';
+          }
+        })();
+      }
     </script>
   </body>
 </html>

@@ -1,4 +1,4 @@
-/* TechNest static site styles */
+
 *,
 *::before,
 *::after {
@@ -215,7 +215,6 @@ main {
   border-color: var(--orange);
 }
 
-/* Hero */
 .hero-wrap {
   display: grid;
   grid-template-columns: 260px 1fr;
@@ -308,7 +307,7 @@ main {
   color: #fff;
 }
 
-/* Sections */
+
 .section {
   padding: 40px 0;
 }
@@ -332,7 +331,6 @@ main {
   color: var(--orange-2);
 }
 
-/* Cards / grid */
 .grid {
   display: grid;
   gap: 18px;
@@ -459,7 +457,7 @@ main {
   color: var(--orange);
 }
 
-/* Filter bar */
+
 .filter-bar {
   display: flex;
   gap: 12px;
@@ -489,7 +487,7 @@ main {
   min-width: 200px;
 }
 
-/* Product detail */
+
 .detail {
   display: grid;
   grid-template-columns: 1fr 1fr;
@@ -527,7 +525,7 @@ main {
   flex-wrap: wrap;
 }
 
-/* Forms */
+
 .form-card {
   background: #fff;
   max-width: 480px;
@@ -729,7 +727,7 @@ main {
   }
 }
 
-/* Scroll to top */
+
 .scroll-top {
   position: fixed;
   right: 20px;
@@ -780,7 +778,7 @@ main {
   }
 }
 
-/* Reveal animation */
+
 .reveal {
   opacity: 0;
   transform: translateY(20px);
@@ -793,7 +791,7 @@ main {
   transform: translateY(0);
 }
 
-/* Responsive */
+
 @media (max-width: 1024px) {
   .hero-wrap {
     grid-template-columns: 220px 1fr;

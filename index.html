@@ -88,8 +88,8 @@
         </article>
       `).join('');
       document.getElementById('featured').innerHTML = html;
-      // re-observe new reveals
-      document.querySelectorAll('.reveal:not(.visible)').forEach(el=>el.classList.add('visible'));
+      // re-observe new reveals so they animate in on scroll, same as the rest of the page
+      TN_observeReveals();
     }catch(e){
       document.getElementById('featured').innerHTML = '<p style="color:var(--muted)">Could not load products right now.</p>';
     }

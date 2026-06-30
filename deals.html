@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1"/>
+<title>Deals — TechNest</title>
+<meta name="description" content="Hot deals on PC components and gaming gear at TechNest."/>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Space+Grotesk:wght@500;700&display=swap"/>
+<link rel="stylesheet" href="assets/styles.css"/>
+</head>
+<body>
+<div data-header></div>
+<main class="container section">
+  <div class="hero" style="margin-bottom:24px">
+    <div class="hero-content">
+      <h1>Hot <span>Deals</span></h1>
+      <p>Our top-rated PC components and gaming gear, hand-picked and discounted for builders like you.</p>
+    </div>
+  </div>
+  <h2 style="margin-bottom:16px">Today's Best Picks</h2>
+  <section id="grid" class="grid product-grid">
+    <div class="loader"><div class="spinner"></div><p>Loading deals…</p></div>
+  </section>
+</main>
+<div data-footer></div>
+<script src="assets/main.js"></script>
+<script>
+(async function(){
+  const grid = document.getElementById('grid');
+  try{
+    const res = await fetch('assets/products.json');
+    const all = await res.json();
+    // "Deals" = top-rated items, with a simulated 15% off
+    const list = all
+      .filter(p => (p.rating?.rate ?? 0) >= 4.7)
+      .sort((a,b)=>(b.rating?.rate||0)-(a.rating?.rate||0))
+      .slice(0,12);
+    if(!list.length){ grid.innerHTML='<p style="color:var(--muted);padding:40px">No deals available right now.</p>'; return; }
+    grid.innerHTML = list.map(p=>{
+      const original = p.price;
+      const sale = +(original * 0.85).toFixed(2);
+      return `
+      <article class="product-card reveal">
+        <a class="thumb" href="product.html?id=${p.id}"><img src="${p.image}" alt="${p.title}" loading="lazy"/></a>
+        <div class="body">
+          <h3>${p.title}</h3>
+          <div class="rating">★ ${p.rating?.rate ?? '—'} <span style="color:var(--muted)">(${p.rating?.count ?? 0})</span></div>
+          <div class="price">$${sale.toFixed(2)} <span style="color:var(--muted);text-decoration:line-through;font-size:.9rem;font-weight:400;margin-left:6px">$${original.toFixed(2)}</span> <span style="color:#16a34a;font-size:.8rem;font-weight:600;margin-left:4px">-15%</span></div>
+          <div class="actions">
+            <button onclick="TN_addToCart()">Add to cart</button>
+            <a href="product.html?id=${p.id}">View</a>
+          </div>
+        </div>
+      </article>`;
+    }).join('');
+  }catch(e){
+    grid.innerHTML = '<p style="color:var(--muted)">Could not load deals.</p>';
+  }
+})();
+</script>
+</body>
+</html>

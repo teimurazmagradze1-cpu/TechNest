@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1"/>
+<title>TechNest — Tech & Electronics Store</title>
+<meta name="description" content="Shop the latest electronics, gadgets and PC components at TechNest."/>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Space+Grotesk:wght@500;700&display=swap"/>
+<link rel="stylesheet" href="assets/styles.css"/>
+</head>
+<body>
+<div data-header></div>
+<main>
+  <section class="container">
+    <div class="hero-wrap">
+      <aside class="categories" aria-label="Shop by category">
+        <a href="products.html?cat=gpu">Graphics Cards <span>›</span></a>
+        <a href="products.html?cat=cpu">Processors <span>›</span></a>
+        <a href="products.html?cat=motherboard">Motherboards <span>›</span></a>
+        <a href="products.html?cat=ram">Memory (RAM) <span>›</span></a>
+        <a href="products.html?cat=storage">SSD / Storage <span>›</span></a>
+        <a href="products.html?cat=cooling">Cooling <span>›</span></a>
+        <a href="products.html?cat=monitor">Monitors <span>›</span></a>
+        <a href="products.html?cat=peripheral">Peripherals <span>›</span></a>
+        <a href="products.html">All Components <span>›</span></a>
+      </aside>
+      <div class="hero">
+        <div class="hero-content">
+          <h1>Build Your <span>Dream</span> Rig</h1>
+          <p>Save up to 40% on the latest GPUs, CPUs, and gaming gear. Hand-picked components for builders who want the best.</p>
+          <a class="btn btn-primary" href="products.html">Shop components →</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section container">
+    <div class="section-head reveal"><h2>Shop by Component</h2><a href="products.html">View all →</a></div>
+    <div class="grid cat-grid">
+      <a href="products.html?cat=gpu" class="cat-card reveal"><div class="icon">🎮</div><h3>Graphics Cards</h3><p>RTX 50 & RX 9000 series</p></a>
+      <a href="products.html?cat=cpu" class="cat-card reveal"><div class="icon">⚡</div><h3>Processors</h3><p>Ryzen & Intel Core</p></a>
+      <a href="products.html?cat=motherboard" class="cat-card reveal"><div class="icon">🔌</div><h3>Motherboards</h3><p>AM5 & LGA1700</p></a>
+      <a href="products.html?cat=ram" class="cat-card reveal"><div class="icon">💾</div><h3>Memory</h3><p>DDR5 high-speed kits</p></a>
+      <a href="products.html?cat=storage" class="cat-card reveal"><div class="icon">💿</div><h3>Storage</h3><p>PCIe 4.0 NVMe SSDs</p></a>
+      <a href="products.html?cat=cooling" class="cat-card reveal"><div class="icon">❄️</div><h3>Cooling</h3><p>AIO & air coolers</p></a>
+      <a href="products.html?cat=monitor" class="cat-card reveal"><div class="icon">🖥️</div><h3>Monitors</h3><p>OLED & high-refresh</p></a>
+      <a href="products.html?cat=peripheral" class="cat-card reveal"><div class="icon">⌨️</div><h3>Peripherals</h3><p>Keyboards, mice, headsets</p></a>
+    </div>
+  </section>
+
+  <section class="section container">
+    <div class="section-head reveal"><h2>Featured Deals</h2><a href="products.html">See all →</a></div>
+    <div id="featured" class="grid product-grid">
+      <div class="loader"><div class="spinner"></div><p>Loading deals…</p></div>
+    </div>
+  </section>
+
+  <section class="section container reveal">
+    <div style="background:linear-gradient(120deg,var(--navy),var(--navy-2));color:#fff;padding:40px;border-radius:14px;text-align:center">
+      <h2 style="color:#fff;margin-bottom:10px">Join the TechNest newsletter</h2>
+      <p style="color:#cbd5e1;margin-bottom:20px">Get exclusive deals delivered to your inbox.</p>
+      <a class="btn btn-primary" href="contact.html">Contact us</a>
+    </div>
+  </section>
+</main>
+<div data-footer></div>
+<script src="assets/main.js"></script>
+<script>
+  (async function(){
+    try{
+      const res = await fetch('assets/products.json');
+      const all = await res.json();
+      const items = all.slice(0,4);
+      const html = items.map(p=>`
+        <article class="product-card reveal">
+          <a class="thumb" href="product.html?id=${p.id}"><img src="${p.image}" alt="${p.title}" loading="lazy"/></a>
+          <div class="body">
+            <h3>${p.title}</h3>
+            <div class="rating">★ ${p.rating?.rate ?? '—'} <span style="color:var(--muted)">(${p.rating?.count ?? 0})</span></div>
+            <div class="price">$${p.price.toFixed(2)}</div>
+            <div class="actions">
+              <button onclick="TN_addToCart()">Add to cart</button>
+              <a href="product.html?id=${p.id}">View</a>
+            </div>
+          </div>
+        </article>
+      `).join('');
+      document.getElementById('featured').innerHTML = html;
+      // re-observe new reveals
+      document.querySelectorAll('.reveal:not(.visible)').forEach(el=>el.classList.add('visible'));
+    }catch(e){
+      document.getElementById('featured').innerHTML = '<p style="color:var(--muted)">Could not load products right now.</p>';
+    }
+  })();
+</script>
+</body>
+</html>

@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1"/>
+<title>Products — TechNest</title>
+<meta name="description" content="Browse all products at TechNest."/>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Space+Grotesk:wght@500;700&display=swap"/>
+<link rel="stylesheet" href="assets/styles.css"/>
+</head>
+<body>
+<div data-header></div>
+<main class="container section">
+  <h1 style="margin-bottom:20px">Products</h1>
+  <div class="filter-bar">
+    <input type="search" id="q" placeholder="Search products…" aria-label="Search products"/>
+    <select id="cat" aria-label="Category">
+      <option value="">All categories</option>
+      <option value="gpu">Graphics Cards</option>
+      <option value="cpu">Processors</option>
+      <option value="motherboard">Motherboards</option>
+      <option value="ram">Memory (RAM)</option>
+      <option value="storage">Storage (SSD)</option>
+      <option value="psu">Power Supplies</option>
+      <option value="case">Cases</option>
+      <option value="cooling">Cooling</option>
+      <option value="monitor">Monitors</option>
+      <option value="peripheral">Peripherals</option>
+    </select>
+    <select id="sort" aria-label="Sort">
+      <option value="">Sort: featured</option>
+      <option value="asc">Price: low → high</option>
+      <option value="desc">Price: high → low</option>
+    </select>
+  </div>
+  <section id="grid" class="grid product-grid">
+    <div class="loader"><div class="spinner"></div><p>Loading…</p></div>
+  </section>
+</main>
+<div data-footer></div>
+<script src="assets/main.js"></script>
+<script src="assets/products.js"></script>
+</body>
+</html>
